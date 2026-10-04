@@ -1,6 +1,6 @@
-# ssl_imp: Chrome TLS Fingerprint Impersonator (OpenSSL)
+# chrome-tls-impersonator
 
-`ssl_imp` is a lightweight C project designed to impersonate **Google Chrome's TLS ClientHello fingerprint** using modern **OpenSSL (>= 3.6.0)**.
+`chrome-tls-impersonator` is a lightweight C project designed to impersonate **Google Chrome's TLS ClientHello fingerprint** using modern **OpenSSL (>= 3.6.0)**.
 
 ---
 
@@ -8,7 +8,7 @@
 
 Modern anti-bot solutions, web application firewalls (WAFs), and CDNs (such as Cloudflare, Akamai, and DataDome) inspect the TLS handshake to identify automated scripts. Traditional tools using OpenSSL (like standard `curl` or Python's `requests`) are easily flagged because OpenSSL's default ClientHello looks drastically different from a real web browser.
 
-`ssl_imp` bridges this gap by configuring OpenSSL to replicate the exact TLS signature of Google Chrome (Chrome 139+), including:
+`chrome-tls-impersonator` bridges this gap by configuring OpenSSL to replicate the exact TLS signature of Google Chrome (Chrome 139+), including:
 - **Cipher Suite ordering & selection** (TLS 1.3 & TLS 1.2)
 - **Supported Groups / Curves**, including post-quantum key exchange (`*X25519MLKEM768`, `*X25519`)
 - **GREASE** (Generate Random Extensions And Sustain Extensibility) injection
@@ -65,7 +65,13 @@ By default, the program connects to `https://tls.browserleaks.com/json` and retu
 
 ### Build Steps
 
-#### 1. Configure with CMake
+#### 1. Clone the Repository
+```bash
+git clone https://github.com/<your-username>/chrome-tls-impersonator.git
+cd chrome-tls-impersonator
+```
+
+#### 2. Configure with CMake
 Point `OPENSSL_ROOT_DIR` to your custom OpenSSL installation path:
 
 **Windows (cmd / PowerShell):**
@@ -79,7 +85,7 @@ cmake -S . -B build -DOPENSSL_ROOT_DIR="C:/path/to/openssl"
 cmake -S . -B build -DOPENSSL_ROOT_DIR="/usr/local/openssl"
 ```
 
-#### 2. Compile the Project
+#### 3. Compile the Project
 ```cmd
 cmake --build build --config Release
 ```
@@ -123,7 +129,7 @@ After modifying [`main.c`](main.c), re-run `cmake --build build --config Release
 ## 📂 Project Structure
 
 ```text
-ssl_imp-master/
+chrome-tls-impersonator/
 ├── CMakeLists.txt        # CMake build configuration and DLL copy step
 ├── main.c                # TLS client, custom extensions (ALPS, ECH, GREASE), and HTTP client
 ├── README.md             # Project documentation
